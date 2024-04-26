@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0t5bjtk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.21.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <bpmn:process id="DoStepProcess" name="Do Step Process" isExecutable="true" camunda:historyTimeToLive="30" camunda:isStartableInTasklist="false">
+    <bpmn:businessRuleTask id="Activity_05lm3u5" name="Evaluate Steps" camunda:resultVariable="evaluateStepsResult" camunda:decisionRef="${decision}" camunda:mapDecisionResult="singleResult">
+      <bpmn:extensionElements />
+      <bpmn:incoming>Flow_12zjo9j</bpmn:incoming>
+      <bpmn:outgoing>Flow_13i8aoc</bpmn:outgoing>
+    </bpmn:businessRuleTask>
+    <bpmn:intermediateCatchEvent id="Event_1m8u5l6" name="Wait Time">
+      <bpmn:incoming>Flow_0hvqmob</bpmn:incoming>
+      <bpmn:outgoing>Flow_0vp4th5</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_18h9ie8">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">${nextExecutionDate}</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:serviceTask id="Activity_0ah0l5t" name="Publish Recommendation" camunda:delegateExpression="${publishRecommendations}">
+      <bpmn:incoming>Flow_0vp4th5</bpmn:incoming>
+      <bpmn:outgoing>Flow_08967in</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:startEvent id="Event_0sunx13">
+      <bpmn:outgoing>Flow_12zjo9j</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:endEvent id="Event_1neny5d">
+      <bpmn:incoming>Flow_0e4fi4m</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:exclusiveGateway id="Gateway_0v8tbbl" name="Are there need to revaluate?" default="Flow_0e4fi4m">
+      <bpmn:incoming>Flow_08967in</bpmn:incoming>
+      <bpmn:outgoing>Flow_0e4fi4m</bpmn:outgoing>
+      <bpmn:outgoing>Flow_0oc482s</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:serviceTask id="Activity_01si7ne" name="Calculate Next Date" camunda:delegateExpression="${prePublishDelegate}">
+      <bpmn:incoming>Flow_0oc482s</bpmn:incoming>
+      <bpmn:incoming>Flow_13i8aoc</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hvqmob</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_12zjo9j" sourceRef="Event_0sunx13" targetRef="Activity_05lm3u5" />
+    <bpmn:sequenceFlow id="Flow_13i8aoc" sourceRef="Activity_05lm3u5" targetRef="Activity_01si7ne" />
+    <bpmn:sequenceFlow id="Flow_0hvqmob" sourceRef="Activity_01si7ne" targetRef="Event_1m8u5l6" />
+    <bpmn:sequenceFlow id="Flow_0vp4th5" sourceRef="Event_1m8u5l6" targetRef="Activity_0ah0l5t" />
+    <bpmn:sequenceFlow id="Flow_08967in" sourceRef="Activity_0ah0l5t" targetRef="Gateway_0v8tbbl" />
+    <bpmn:sequenceFlow id="Flow_0e4fi4m" name="No" sourceRef="Gateway_0v8tbbl" targetRef="Event_1neny5d" />
+    <bpmn:sequenceFlow id="Flow_0oc482s" name="Yes" sourceRef="Gateway_0v8tbbl" targetRef="Activity_01si7ne">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${evaluateStepsResult.get("runNextStep")}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="DoStepProcess">
+      <bpmndi:BPMNShape id="Activity_1mrpr7w_di" bpmnElement="Activity_05lm3u5">
+        <dc:Bounds x="290" y="100" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_13lg24z_di" bpmnElement="Event_1m8u5l6">
+        <dc:Bounds x="572" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="565" y="98" width="49" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0qxsl1y" bpmnElement="Activity_0ah0l5t">
+        <dc:Bounds x="660" y="100" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0sunx13_di" bpmnElement="Event_0sunx13">
+        <dc:Bounds x="192" y="122" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1neny5d_di" bpmnElement="Event_1neny5d">
+        <dc:Bounds x="942" y="122" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0v8tbbl_di" bpmnElement="Gateway_0v8tbbl" isMarkerVisible="true">
+        <dc:Bounds x="815" y="115" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="798" y="78" width="85" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_16gcss7_di" bpmnElement="Activity_01si7ne">
+        <dc:Bounds x="430" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_12zjo9j_di" bpmnElement="Flow_12zjo9j">
+        <di:waypoint x="228" y="140" />
+        <di:waypoint x="290" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13i8aoc_di" bpmnElement="Flow_13i8aoc">
+        <di:waypoint x="390" y="140" />
+        <di:waypoint x="430" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hvqmob_di" bpmnElement="Flow_0hvqmob">
+        <di:waypoint x="530" y="140" />
+        <di:waypoint x="572" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0vp4th5_di" bpmnElement="Flow_0vp4th5">
+        <di:waypoint x="608" y="140" />
+        <di:waypoint x="660" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_08967in_di" bpmnElement="Flow_08967in">
+        <di:waypoint x="760" y="140" />
+        <di:waypoint x="815" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0e4fi4m_di" bpmnElement="Flow_0e4fi4m">
+        <di:waypoint x="865" y="140" />
+        <di:waypoint x="942" y="140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="896" y="122" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0oc482s_di" bpmnElement="Flow_0oc482s">
+        <di:waypoint x="840" y="165" />
+        <di:waypoint x="840" y="220" />
+        <di:waypoint x="480" y="220" />
+        <di:waypoint x="480" y="180" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="799" y="202" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" id="RecommendationDRD" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.21.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.20.0">
+  <decision id="RecommendationTable" name="Recommendation Table" camunda:historyTimeToLive="30">
+    <decisionTable id="DecisionTable_0q83d2i" hitPolicy="FIRST">
+      <input id="InputClause_1trh43y" label="iterationNumber" camunda:inputVariable="iterationNumber">
+        <inputExpression id="LiteralExpression_0v4qm9h" typeRef="long">
+          <text>iterationNumber</text>
+        </inputExpression>
+      </input>
+      <input id="Input_1" label="age" camunda:inputVariable="age">
+        <inputExpression id="InputExpression_1" typeRef="long">
+          <text>patient.age</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1wreclq" label="physicalActivityFreq" camunda:inputVariable="physicalActivityFreq">
+        <inputExpression id="LiteralExpression_131n2eo" typeRef="string">
+          <text>patient.physicalActivityFreq</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_0b4jnhn">
+          <text>"LOW","AVERAGE","HIGH"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_01c3kj5" label="smokeFrequency" camunda:inputVariable="smokeFrequency">
+        <inputExpression id="LiteralExpression_1jf2ejh" typeRef="string">
+          <text>patient.smokeFrequency</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1167mah">
+          <text>"NONE","LOW","AVERAGE","HIGH"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_0kycgcf" label="alcoholFrequency" camunda:inputVariable="alcoholFrequency">
+        <inputExpression id="LiteralExpression_1r8b0e2" typeRef="string">
+          <text>patient.alcoholFrequency</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1epej2x">
+          <text>"NONE","LOW","AVERAGE","HIGH"</text>
+        </inputValues>
+      </input>
+      <output id="Output_1" label="typeContent" name="typeContent" typeRef="string">
+        <outputValues id="UnaryTests_1frzqj9">
+          <text>"HEALTHY_TIPS","LIVE_HEALTHIER","RISK_RECURRENCE","STAYING_TRACK_TREATMENT"</text>
+        </outputValues>
+      </output>
+      <output id="OutputClause_0uls5do" label="timeOfDay" name="timeOfDay" typeRef="string" biodi:width="192">
+        <outputValues id="UnaryTests_0wxlrrt">
+          <text>"MORNING","AFTERNOON","EVENING"</text>
+        </outputValues>
+      </output>
+      <output id="OutputClause_04g9ztp" name="runNextStep" typeRef="boolean" />
+      <output id="OutputClause_05ocwo0" label="offsetDays" name="offsetDays" typeRef="long" />
+      <rule id="DecisionRule_1bpskiz">
+        <inputEntry id="UnaryTests_06njhnn">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1obxpb9">
+          <text>&lt;= 30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1thmd7o">
+          <text>"LOW"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_19alo8h">
+          <text>"NONE","LOW"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08fs4t2">
+          <text>"NONE","LOW"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0n37ebg">
+          <text>"HEALTHY_TIPS"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0z9w0ks">
+          <text>"MORNING"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05tzn8d">
+          <text>true</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_131nb13">
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0lbm47c">
+        <inputEntry id="UnaryTests_0hth819">
+          <text>2</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09chcsv">
+          <text>&lt;= 30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0nj5gs8">
+          <text>"LOW"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_073wary">
+          <text>"NONE","LOW"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ah7u19">
+          <text>"NONE","LOW"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0kfnl1g">
+          <text>"LIVE_HEALTHIER"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1u40jkl">
+          <text>"MORNING"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0o5jx1s">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ibf4eb">
+          <text>1</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_089xztg">
+        <inputEntry id="UnaryTests_1ri6ldg">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kgqy13">
+          <text>&gt; 30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_029ztti">
+          <text>"LOW"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15go219">
+          <text>"NONE","LOW"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1nxxowx">
+          <text>"NONE","LOW"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1j1v9su">
+          <text>"STAYING_TRACK_TREATMENT"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1d946sl">
+          <text>"EVENING"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0ffhj91">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1jb89v8">
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1kova4a">
+        <inputEntry id="UnaryTests_0fvcd7o">
+          <text>1</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_13tk21s">
+          <text>&gt; 30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0po4d48">
+          <text>"LOW"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1oenv6g">
+          <text>"AVERAGE","HIGH"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07h8i9g">
+          <text>"AVERAGE","HIGH"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1srnmfg">
+          <text>"LIVE_HEALTHIER"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1ju1dge">
+          <text>"MORNING"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_01cszfl">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1nqiwkf">
+          <text>2</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_08a0fc5">
+        <inputEntry id="UnaryTests_0w1fvok">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xnscru">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1h6sxc7">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qhrg6s">
+          <text>-</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0h9etbt">
+          <text>-</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1guvsrt">
+          <text>""</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_19gg6dz">
+          <text>""</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1om0s53">
+          <text>false</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1sbovcw">
+          <text>0</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="RecommendationTable">
+        <dc:Bounds height="80" width="180" x="180" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

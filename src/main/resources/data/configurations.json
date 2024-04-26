@@ -1,0 +1,13 @@
+[
+  {
+    "customer": "PFIZER",
+    "configInstances": [
+      {
+        "instanceName": "instance-1",
+        "stepDecisions": [
+          "RecommendationTable"
+        ]
+      }
+    ]
+  }
+]
